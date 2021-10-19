@@ -1,7 +1,7 @@
 import '../../css/App.css';
 
 import Header from './Header';
-import Game from './Game';
+import GameManager from './Game';
 import Footer from './Footer';
 
 import React from 'react';
@@ -13,7 +13,7 @@ function App() {
     <React.Fragment>
       <main className="App content">
         <Header />
-        <Game />
+        <GameManager />
       </main>
       <Footer />
     </React.Fragment>
