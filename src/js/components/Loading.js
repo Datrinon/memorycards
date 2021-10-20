@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 function Loading(props) {
 
   let loadingElement;
-  let finishedLoading = false;
+  const [finishedLoading, setFinishedLoading] = useState(false);
 
   switch (props.gameState) {    
     case "beforestart":
@@ -20,7 +20,7 @@ function Loading(props) {
           </p>
           <button
             onClick={props.advanceState}
-            disabled={finishedLoading}>
+            disabled={!finishedLoading}>
             Begin Game</button>
         </div>
       );
@@ -30,20 +30,27 @@ function Loading(props) {
   }
 
   // use this useEffect in order to perform network requests after loading.
-  useEffect() {
-    // use a batch call with promises using 
-    props.cards;
-  }
+  useEffect(() => {
+    Promise.all(props.cards.map((topic) => {
+      // .json() returns a promise to give data after its done processing.
+      return fetch(`https://foodish-api.herokuapp.com/api/images/${topic}/`).then(resp => resp.json())
+    })).then((results) => {
+      console.log(results);
+      setFinishedLoading(true);
+    })
+  }, [props.cards]);
 
   return (
     <div>
-      {!props.finishedLoading &&
+      {!finishedLoading &&
         <p>Now Loading... Please Wait.</p>
       }
-      {props.finishedLoading && 
+      {finishedLoading && 
         <p>Loading Complete!</p>
       }
       {loadingElement}
     </div>
   );
 }
+
+export default Loading;

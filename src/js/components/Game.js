@@ -9,7 +9,7 @@ function Game() {
   const GAME_STATES = ["menu", "beforestart", "playing", "round_win", "gameover_win", "gameover_lose"];
   const TYPES = ["biryani", "burger", "butter-chicken", "dessert", "dosa",
   "idly", "pasta", "pizza", "rice", "samosa"];
-  const [levels, setLevels] = useState([3, 4, 6, 9 ,12]);
+  const [levels, setLevels] = useState([3, 4, 6, 8, 10]);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [typesForCurrentLevel, setTypesForCurrentLevel] = useState(null);
   const [gameCurrentState, setGameCurrentState] = useState("menu");
@@ -57,7 +57,7 @@ function Game() {
             advanceState={setGameCurrentState.bind(null, "begin")}
             gameState={"beforestart"}
             numLevels={levels.length}
-            cards={currentLevelTypes}
+            cards={typesForCurrentLevel}
             onLoadFinish={generateMemoryCards}
           />
         );
