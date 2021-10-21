@@ -1,3 +1,4 @@
+import "../../css/MemoryCard.css"
 
 function MemoryCard(props) {
   let matches = props.src.split("/");
