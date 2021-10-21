@@ -1,56 +1,121 @@
-import React, { useEffect, useState } from 'react';
-//import useHTTPFetch from "../hooks/useHTTPFetch"; 
-// Don't think we need that, since the state doesn't depend on the fetch from the data.
-// 
+import React, { useEffect, useState, useRef } from 'react';
+import GameInfo from "./GameInfo";
+
+import MemoryCard from "./MemoryCard";
 
 function Loading(props) {
+  const TYPES = ["biryani", "burger", "butter-chicken", "dessert", "dosa",
+    "idly", "pasta", "pizza", "rice", "samosa"];
+  console.log("= Loading Screen =")
 
   let loadingElement;
   const [finishedLoading, setFinishedLoading] = useState(false);
+  const [justBeganGame, setJustBeganGame] = useState(true);
 
-  switch (props.gameState) {    
-    case "beforestart":
-      loadingElement = (
-        <div>
-          <p className="welcome-dialog">
-            Can you remember which cards you picked?
-            The goal of this game is to select all the cards once,
-            without selecting them again! There are {props.numLevels} levels.
-            Good luck!
-          </p>
-          <button
-            onClick={props.advanceState}
-            disabled={!finishedLoading}>
-            Begin Game</button>
-        </div>
-      );
-      break;
-    default:
-      break;
+  async function generateMemoryCard(urls) {
+    let images = urls.map(url => {
+      return new Promise((resolve, reject) => {
+        let img = new Image();
+
+        img.onload = () => {
+          resolve(img);
+        }
+
+        img.onerror = () => {
+          reject(new Error("The memory card image could not be fetched."));
+        }
+
+        img.src = url;
+      });
+    });
+
+    try {
+      let cards = await Promise.all(images);
+
+      return cards.map(img => {
+        return (<MemoryCard
+          key={img.src}
+          src={img.src}
+        />);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    // render elements to dom here, with no display initially. so they load.
+    // Use onload to send a resolve inside of a promise.
+    // then, when this is done,
+    // finishedLoading is true in loading.
+    // so it needs a promise chain.
+  }
+
+  /**
+ * Generates a number of topics for use on the memory cards. Ideally,
+ * we pass these off to the API when we fetch data.
+ * @returns {string[]} array of valid topics to give to the API to fetch images of.
+ */
+  function getMemCardTypesForCurLvl() {
+    let currentLevelTypes = [];
+    let i = 0;
+
+    while (i < props.numCardsForLevel) {
+      let index = Math.round(Math.random() * (TYPES.length - 1));
+      console.log(index);
+
+      if (currentLevelTypes.includes(TYPES[index])) {
+        continue;
+      } else {
+        currentLevelTypes.push(TYPES[index]);
+        i++;
+      }
+    }
+
+    return currentLevelTypes;
   }
 
   // use this useEffect in order to perform network requests after loading.
   useEffect(() => {
-    Promise.all(props.cards.map((topic) => {
+    let selectedTopics = getMemCardTypesForCurLvl();
+
+    Promise.all(selectedTopics.map((topic) => {
+      console.log(topic);
       // .json() returns a promise to give data after its done processing.
       return fetch(`https://foodish-api.herokuapp.com/api/images/${topic}/`).then(resp => resp.json())
     })).then((results) => {
-      console.log(results);
+      let urls = results.map(result => result.image);
+      console.log(urls);
+
+      generateMemoryCard(urls).then((cards) => {
+        props.passBackMemoryCards(cards);
+      });
+
       setFinishedLoading(true);
+
     })
-  }, [props.cards]);
+  }, []);
 
   return (
     <div>
-      {!finishedLoading &&
+      {justBeganGame &&
+        <GameInfo
+          numLevels={props.numLevels}
+        />
+      }
+      {finishedLoading ?
+        <p>Loading Complete!</p> :
         <p>Now Loading... Please Wait.</p>
       }
-      {finishedLoading && 
-        <p>Loading Complete!</p>
-      }
-      {loadingElement}
+      <button onClick={props.playerReady} disabled={!finishedLoading}>Proceed</button>
     </div>
   );
 }
 
-export default Loading;
+
+export default React.memo(Loading, (prevProps, nextProps) => {
+  if (prevProps.currentLevel !== nextProps.currentLevel) {
+    return false;
+  } else {
+    return true;
+  }
+}
+);
