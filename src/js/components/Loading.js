@@ -32,10 +32,12 @@ function Loading(props) {
     try {
       let cards = await Promise.all(images);
 
-      return cards.map(img => {
+      return cards.map((img, index) => {
         return (<MemoryCard
+          id={index}
           key={img.src}
           src={img.src}
+          onClick={props.memoryCardOnClick}
         />);
       });
     } catch (error) {
@@ -59,7 +61,7 @@ function Loading(props) {
     let i = 0;
 
     while (i < props.numCardsForLevel) {
-      let index = Math.round(Math.random() * (TYPES.length - 1));
+      let index = Math.floor(Math.random() * TYPES.length);
       console.log(index);
 
       if (currentLevelTypes.includes(TYPES[index])) {

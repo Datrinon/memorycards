@@ -1,10 +1,12 @@
+
 function MemoryCard(props) {
-  let name = props.src.split(/[0-9]+/)[0];
+  let matches = props.src.split("/");
+  let name = matches[matches.length - 1].split(/0-9+/)[0];
 
   return (
-    <img src={props.src} alt="" style={{width: "128px"}}/>
-    <figcaption>title: {name}</figcaption>
   <figure data-key={props.id} className="memory-card" onClick={props.onClick}>
+    <img className="memory-card-image" src={props.src} alt="" style={{width: "128px"}}/>
+    <figcaption className="memory-card-label">title: {name}</figcaption>
   </figure>
   );
 }
