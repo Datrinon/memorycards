@@ -12,6 +12,12 @@ function GameManager() {
   const [gameCurrentState, setGameCurrentState] = useState(GAME_STATE.MENU);
   // TODO
   // keep track of HIGH score.
+  console.log("Current state:" + gameCurrentState);
+
+
+  function setGameState(state) {
+    setGameCurrentState(state);
+  }
 
   function determineSectionToRender() {
     switch(gameCurrentState) {
@@ -21,14 +27,20 @@ function GameManager() {
           // TODO
           // A difficulty selector which sets the number of levels and time per card.
         );
-        break;
       case GAME_STATE.PLAYING:
         return (
           <Game
             levels = {levels}
+            setGameState={setGameState}
           />
         );
-        break;
+      case GAME_STATE.GAMEOVER_LOSE:
+        return (
+          <div>
+            <p>You lose! Better luck next time!!</p>
+            <button onClick={setGameState.bind(null, GAME_STATE.MENU)}>Play Again</button>
+          </div>
+        );
       default: 
         break;
     }
