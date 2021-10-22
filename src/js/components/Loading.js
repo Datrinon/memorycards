@@ -10,7 +10,6 @@ function Loading(props) {
 
   let loadingElement;
   const [finishedLoading, setFinishedLoading] = useState(false);
-  const [justBeganGame, setJustBeganGame] = useState(true);
 
   async function generateMemoryCard(urls) {
     let images = urls.map(url => {
@@ -98,7 +97,7 @@ function Loading(props) {
 
   return (
     <div>
-      {justBeganGame &&
+      {props.currentLevel === 0 &&
         <GameInfo
           numLevels={props.numLevels}
         />
