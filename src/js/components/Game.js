@@ -216,7 +216,6 @@ function Game(props) {
 
   return (
     <div>
-      <Timer timeleft={totalTime} endGame={endGame}/>
       <Timer timeleft={totalTime} endGame={endGame} playerWon={playerWonRound}/>
       <p>Level: {currentLevel + 1}</p>
       <p>Total Score: {totalScore}</p>
