@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Loading from "./Loading";
 import MemoryCard from './MemoryCard';
+import Timer from './Timer';
 
 import GAME_STATE from '../Models/GameState';
 
@@ -10,6 +11,7 @@ import { cloneDeep } from 'lodash';
 import Burger from "../../images/burger01.png";
 import Chicken from "../../images/chicken01.png";
 import Cola from "../../images/cola01.png";
+
 import Utility from '../Util/utility';
 
 import useAsyncState from '../hooks/useAsyncState';
@@ -60,6 +62,7 @@ function Game(props) {
   const [memoryCards, setMemoryCards] = useState(cloneDeep(DUMMY_CARDS));
   const [memoryCardsStatus, setMemoryCardsStatus] = useAsyncState(cloneDeep(DUMMY_CARDS_STATUS));
   const [playerWonRound, setPlayerWonRound] = useAsyncState(false);
+  const [totalTime, setTotalTime] = useState(props.timePerCard * props.levels[currentLevel]);
 
   console.log({playerReady, currentLevel, score: roundScore, memoryCards, memoryCardsStatus, playerWonRound})
 
@@ -106,7 +109,7 @@ function Game(props) {
     })
 
     if (lost) {
-      props.setGameState(GAME_STATE.GAMEOVER_LOSE);
+      endGame();
       return;
     }
 
@@ -140,6 +143,7 @@ function Game(props) {
   }
 
   function advanceLevel() {
+    setTotalTime(props.timePerCard * props.levels[currentLevel + 1]);
     setRoundScore(0);
     setPlayerReady(false);
     setCurrentLevel(currentLevel + 1);
@@ -205,8 +209,13 @@ function Game(props) {
     }
   }
 
+  function endGame() {
+    props.setGameState(GAME_STATE.GAMEOVER_LOSE);
+  }
+
   return (
     <div>
+      <Timer timeleft={totalTime} endGame={endGame}/>
       <p>Level: {currentLevel + 1}</p>
       <p>Total Score: {totalScore}</p>
       <p>Round Score: {roundScore}</p>
