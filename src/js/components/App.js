@@ -12,7 +12,6 @@ function App() {
   return (
     <React.Fragment>
       <main className="App content">
-        <Header />
         <GameManager />
       </main>
       <Footer />
