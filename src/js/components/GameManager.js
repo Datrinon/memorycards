@@ -8,7 +8,7 @@ import GAME_STATE from '../Models/GameState';
 
 function GameManager() {
 
-  const [levels, setLevels] = useState([3, 4, 6, 8, 10]);
+  const [levels, setLevels] = useState([3, 3]); //useState([3, 4, 6, 8, 10]);
   const [gameCurrentState, setGameCurrentState] = useState(GAME_STATE.MENU);
   // TODO
   // keep track of HIGH score.

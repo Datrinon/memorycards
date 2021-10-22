@@ -12,7 +12,7 @@ import Chicken from "../../images/chicken01.png";
 import Cola from "../../images/cola01.png";
 import Utility from '../Util/utility';
 
-import useScore from '../hooks/useScore';
+import useAsyncState from '../hooks/useAsyncState';
 
 
 const DUMMY_CARDS = [
@@ -51,17 +51,16 @@ const DUMMY_CARDS_STATUS = [
 const DUMMY_STATE_READY = true;
 
 
-
 function Game(props) {
   // debugger;
   const [playerReady, setPlayerReady] = useState(DUMMY_STATE_READY);
   const [currentLevel, setCurrentLevel] = useState(0);
-  const [score, setScore] = useScore(0);
   const [score, setScore] = useAsyncState(0);
   const [memoryCards, setMemoryCards] = useState(cloneDeep(DUMMY_CARDS));
   const [memoryCardsStatus, setMemoryCardsStatus] = useState(cloneDeep(DUMMY_CARDS_STATUS));
   const [playerWonRound, setPlayerWonRound] = useAsyncState(false);
 
+  console.log({playerReady, currentLevel, score, memoryCards, memoryCardsStatus, playerWonRound})
 
   function receiveMemoryCards(cards) {
     setMemoryCards(cards);
@@ -94,8 +93,8 @@ function Game(props) {
           lost = true;
         } else {
           elem.pressed = true;
-          // setScore(score.current + 1);
-          setScore(score + 1);
+          setScore(score.current + 1);
+          // setScore(score + 1);
         }
 
       }
@@ -104,7 +103,7 @@ function Game(props) {
 
     if (lost) {
       props.setGameState(GAME_STATE.GAMEOVER_LOSE);
-      return null;
+      return;
     }
 
     setMemoryCardsStatus(newMemoryCardsStatus);
@@ -144,6 +143,12 @@ function Game(props) {
     setPlayerReady(true);
   }
 
+  function advanceLevel() {
+    setPlayerReady(false);
+    setCurrentLevel(currentLevel + 1);
+    console.log("You should advance the level here and go back to loading.");
+  }
+
   
   // TODO
   // Dummy useEffect, make sure to remove this later
@@ -162,6 +167,13 @@ function Game(props) {
     }
   }, []);
 
+  useEffect(() => {
+    if (score.current >= props.levels[currentLevel]) {
+      console.log("hello?!");
+      setPlayerWonRound(true);
+    } 
+  });
+
   if (!playerReady) {
     return (
       <Loading
@@ -174,11 +186,34 @@ function Game(props) {
     )
   }
 
+  let levelPassed = null;
+  console.log(score.current >= props.levels[currentLevel]);
+
+  if (score.current >= props.levels[currentLevel]) {
+    levelPassed = (
+      <div>
+        <p>Level Passed!</p>
+        <button onClick={advanceLevel}>Proceed to Next Level</button>
+      </div>
+    );
+    // if the next level is undefined... that means the player was on the last level.
+    if (props.levels[currentLevel + 1] === undefined) {
+      levelPassed = (
+      <div>
+        <p>Game Passed! Congratulations!</p>
+        <button onClick={props.setGameState.bind(null, GAME_STATE.MENU)}>Return to Main Menu</button>
+      </div>
+      )
+    }
+  }
+
   return (
     <div>
+      <p>Level: {currentLevel + 1}</p>
       <p>Score: {score.current}</p>
       The game starts here.
       {memoryCards}
+      {levelPassed}
     </div>
   );
 }
