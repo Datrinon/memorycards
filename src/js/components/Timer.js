@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from "react"
+import useAsyncState from "../hooks/useAsyncState";
 
 function Timer(props) {
 
-  let [timeLeft, setTimeLeft] = useState(props.timeleft);
+  let [timeLeft, setTimeLeft] = useState(props.timeleft); 
+  let [timerExpired, setTimerExpired] = useState(false);
   let tickerId = useRef(null);
 
   useEffect(() => {
@@ -12,7 +14,7 @@ function Timer(props) {
           console.log("timer: " + (prevTimeLeft - 1));
           return prevTimeLeft - 1;
         } else {
-          props.endGame();
+          setTimerExpired(true);
         }
       }) 
     }, 1000);
@@ -22,6 +24,18 @@ function Timer(props) {
       clearInterval(tickerId.current); 
     }
   }, []);
+
+  useEffect(() => {
+    if (timerExpired === true) {
+      props.endGame();
+    }
+  }, [timerExpired]);
+
+  if (props.playerWon.current) {
+    console.log("ending timer in body...");
+    console.log(props.playerWon.current);
+    clearInterval(tickerId.current);
+  }
 
   return (
     <p className="time-left">{timeLeft}</p>

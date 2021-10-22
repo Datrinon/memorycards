@@ -172,6 +172,7 @@ function Game(props) {
   useEffect(() => {
     if (roundScore >= props.levels[currentLevel]) {
       console.log("hello?!");
+      console.log("we won?!");
       setPlayerWonRound(true);
     } 
   });
@@ -216,6 +217,7 @@ function Game(props) {
   return (
     <div>
       <Timer timeleft={totalTime} endGame={endGame}/>
+      <Timer timeleft={totalTime} endGame={endGame} playerWon={playerWonRound}/>
       <p>Level: {currentLevel + 1}</p>
       <p>Total Score: {totalScore}</p>
       <p>Round Score: {roundScore}</p>
