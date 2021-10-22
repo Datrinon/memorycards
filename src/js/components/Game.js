@@ -57,11 +57,11 @@ function Game(props) {
   const [playerReady, setPlayerReady] = useState(DUMMY_STATE_READY);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [score, setScore] = useScore(0);
+  const [score, setScore] = useAsyncState(0);
   const [memoryCards, setMemoryCards] = useState(cloneDeep(DUMMY_CARDS));
   const [memoryCardsStatus, setMemoryCardsStatus] = useState(cloneDeep(DUMMY_CARDS_STATUS));
-  const [playerWonRound, setPlayerWonRound] = useState()
+  const [playerWonRound, setPlayerWonRound] = useAsyncState(false);
 
-  console.log({playerReady, currentLevel, score, memoryCards, memoryCardsStatus})
 
   function receiveMemoryCards(cards) {
     setMemoryCards(cards);
@@ -78,6 +78,10 @@ function Game(props) {
 
   function handleMemoryCardClick(event) {
     console.log("click called.");
+    console.log(playerWonRound);
+    if (playerWonRound.current) {
+      return;
+    }
     // mark element as selected & update state
     let card = Utility.getMatchingParent(event.target, ".memory-card");
 
