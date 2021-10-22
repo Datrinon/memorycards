@@ -117,30 +117,22 @@ function Game(props) {
   }
 
   function shuffleCards() {
-    let updatedMemoryCards = [...memoryCards];
-    let currentIndex = memoryCards.length;
-    let randomIndex;
+    setMemoryCards(prevMemoryCards => {
+      let updatedMemoryCards = [...prevMemoryCards];
+      let currentIndex = memoryCards.length;
+      let randomIndex;
 
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+  
+        // destructure
+        [updatedMemoryCards[currentIndex], updatedMemoryCards[randomIndex]] =
+            [updatedMemoryCards[randomIndex], updatedMemoryCards[currentIndex]];
+      }
 
-      // destructure
-      [updatedMemoryCards[currentIndex], updatedMemoryCards[randomIndex]] =
-          [updatedMemoryCards[randomIndex], updatedMemoryCards[currentIndex]];
-    }
-
-    // TODO
-    // DEBUG
-    // Remove this later
-    updatedMemoryCards = updatedMemoryCards.map((elem) => {
-      return React.cloneElement(
-        elem,
-        {onClick: handleMemoryCardClick}
-      );
-    });
-
-    setMemoryCards(updatedMemoryCards);
+      return updatedMemoryCards;
+    })
   }
 
   function playerIsReady() {
