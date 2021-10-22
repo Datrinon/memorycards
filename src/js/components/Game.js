@@ -55,19 +55,22 @@ function Game(props) {
   // debugger;
   const [playerReady, setPlayerReady] = useState(DUMMY_STATE_READY);
   const [currentLevel, setCurrentLevel] = useState(0);
-  const [score, setScore] = useAsyncState(0);
+  const [totalScore, setTotalScore] = useState(0);
+  const [roundScore, setRoundScore] = useState(0);
   const [memoryCards, setMemoryCards] = useState(cloneDeep(DUMMY_CARDS));
-  const [memoryCardsStatus, setMemoryCardsStatus] = useState(cloneDeep(DUMMY_CARDS_STATUS));
+  const [memoryCardsStatus, setMemoryCardsStatus] = useAsyncState(cloneDeep(DUMMY_CARDS_STATUS));
   const [playerWonRound, setPlayerWonRound] = useAsyncState(false);
 
-  console.log({playerReady, currentLevel, score, memoryCards, memoryCardsStatus, playerWonRound})
+  console.log({playerReady, currentLevel, score: roundScore, memoryCards, memoryCardsStatus, playerWonRound})
 
   function receiveMemoryCards(cards) {
     setMemoryCards(cards);
 
-    let status = memoryCardsStatus.map((elem, index) => {
+    console.log(cards);
+
+    let status = cards.map((elem, index) => {
       return {
-        id: elem.id,
+        id: elem.props.id,
         pressed: false
       }
     });
@@ -86,15 +89,16 @@ function Game(props) {
 
     let selected = parseInt(card.dataset.key);
     let lost = false;
-    let newMemoryCardsStatus = memoryCardsStatus.map((elem, index) => {
+    let newMemoryCardsStatus = memoryCardsStatus.current.map((elem, index) => {
       if (elem.id === selected) {
         // if pressed is already true here then we send the game to a game over state.
         if (elem.pressed) {
+          debugger;
           lost = true;
         } else {
           elem.pressed = true;
-          setScore(score.current + 1);
-          // setScore(score + 1);
+          setRoundScore(prevRoundScore => prevRoundScore + 1);
+          setTotalScore(prevTotalScore => prevTotalScore + 1);
         }
 
       }
@@ -144,8 +148,10 @@ function Game(props) {
   }
 
   function advanceLevel() {
+    setRoundScore(0);
     setPlayerReady(false);
     setCurrentLevel(currentLevel + 1);
+    setPlayerWonRound(false);
     console.log("You should advance the level here and go back to loading.");
   }
 
@@ -168,7 +174,7 @@ function Game(props) {
   }, []);
 
   useEffect(() => {
-    if (score.current >= props.levels[currentLevel]) {
+    if (roundScore >= props.levels[currentLevel]) {
       console.log("hello?!");
       setPlayerWonRound(true);
     } 
@@ -187,9 +193,9 @@ function Game(props) {
   }
 
   let levelPassed = null;
-  console.log(score.current >= props.levels[currentLevel]);
+  console.log(roundScore >= props.levels[currentLevel]);
 
-  if (score.current >= props.levels[currentLevel]) {
+  if (roundScore >= props.levels[currentLevel]) {
     levelPassed = (
       <div>
         <p>Level Passed!</p>
@@ -210,7 +216,8 @@ function Game(props) {
   return (
     <div>
       <p>Level: {currentLevel + 1}</p>
-      <p>Score: {score.current}</p>
+      <p>Total Score: {totalScore}</p>
+      <p>Round Score: {roundScore}</p>
       The game starts here.
       {memoryCards}
       {levelPassed}
