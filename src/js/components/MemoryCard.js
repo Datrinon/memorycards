@@ -6,8 +6,8 @@ function MemoryCard(props) {
 
   return (
   <figure data-key={props.id} className="memory-card" onClick={props.onClick}>
-    <img className="memory-card-image" src={props.src} alt="" style={{width: "128px"}}/>
-    <figcaption className="memory-card-label">title: {name}</figcaption>
+    <img className="memory-card-image" src={props.src} alt=""/>
+    <figcaption className="memory-card-label">{name}</figcaption>
   </figure>
   );
 }

@@ -56,12 +56,16 @@ export default class Utility {
    * play the animation; this is useful when associated with event triggers.
    * @param {HTMLElement} elem - An element to apply the animation to.
    * @param {string} animationName - A CSS class associated with an animation.
+   * @param {function} additionalCallback - A callback to execute after the animation is finished playing.
    */
-  static triggerAnimation(elem, animationName) {
+  static triggerAnimation(elem, animationName, additionalCallback=null) {
     elem.classList.add(animationName);
 
     elem.addEventListener("animationend", () => {
       elem.classList.remove(animationName);
+      if (additionalCallback !== null) {
+        additionalCallback();
+      }
     }, {once : true}); 
   }
 

@@ -116,6 +116,12 @@ function Game(props) {
     }
 
     setMemoryCardsStatus(newMemoryCardsStatus);
+    
+    Utility.triggerAnimation(card, "blow-up", () => {
+      // now reshuffle the elements (from Fisher Yates)
+      shuffleCards();
+    });
+  }
 
   function playIncrementingAnimation() {
     setScoreIncAnim(1);
@@ -177,7 +183,6 @@ function Game(props) {
 
   useEffect(() => {
     if (roundScore >= props.levels[currentLevel]) {
-      console.log("hello?!");
       console.log("we won?!");
       setPlayerWonRound(true);
     } 
