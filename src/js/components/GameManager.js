@@ -62,9 +62,9 @@ function GameManager() {
   
 
   return (
-    <div>
-      {determineSectionToRender()}
-    </div>
+    <>
+    {determineSectionToRender()}
+    </>
   )
 }
 

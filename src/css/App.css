@@ -1,12 +1,26 @@
 html, body, #root {
   height: 100%;
+  background: linear-gradient(217deg, rgb(50, 130, 244), rgba(255, 0, 0, 0) 70.71%), linear-gradient(127deg, rgb(184, 231, 245), rgb(33 147 137 / 71%) 70.71%), linear-gradient(336deg, rgba(25, 57, 216, 0.95), rgba(0, 0, 255, 0) 70.71%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+
+button {
+  font-family: inherit;
+  padding: 15px 30px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 3px 7px 0px #979797;
+  border: 1px solid transparent;
+}
+
 #root {
   display: flex;
   flex-direction: column;
 }
 .content {
   flex: 1 0 auto;
+  position: relative;
 }
 .footer {
   flex-shrink: 0;

@@ -1,0 +1,80 @@
+.game-title {
+  font-weight: 400;
+  font-size: 225%;
+}
+
+.menu {
+  width: 80vw;
+  max-width: 500px;
+  text-align: center;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 11px 5px #3d3d3d6e;
+  background-color: rgb(245, 245, 245);
+  color: black;
+}
+
+.enable-hard {
+  display: block;
+  cursor: pointer;
+}
+
+.play-button {
+  font-size: 150%;
+  background-color: hsl(208, 100%, 40%);
+  color: white;
+  margin-bottom: 15px;
+  transition: background-color 300ms;
+  cursor: pointer;
+}
+
+.play-button:hover {
+  background-color: hsl(208, 100%, 60%);
+}
+
+.difficulty-caption {
+  font-style: italic;
+}
+
+.seconds {
+  color: red;
+  font-weight: 700;
+}
+
+.enable-hard input[type="checkbox"] {
+  position: relative;
+  top: 2px;
+  height: 16px;
+  width: 24px;
+}
+
+.difficulty-caption .seconds {
+  transition: color 300ms;
+}
+
+.difficulty-caption[animation="0"] .seconds {
+  color: orange;
+}
+
+.difficulty-caption[animation="1"] .seconds {
+  color: red;
+  animation: flashing 0.5s;
+}
+
+@keyframes flashing {
+  0% {
+    color: red;
+  }
+  25% {
+    color: rgb(255, 133, 133);
+  }
+  50% {
+    color: red;
+  }
+  100% {
+    color: rgb(255, 133, 133);
+  }
+}
