@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import "../../css/Menu.css";
 
+import Logo from "../../images/logo.png";
+
 
 function Menu(props) {
   const [playAnimation, setPlayAnimation] = useState(0);
@@ -21,6 +23,7 @@ function Menu(props) {
   return (
     <div className="menu" animation={playAnimation}>
       <h1 className="game-title">Memory Game</h1>
+      <img className="logo" src={Logo}/>
       <button onClick={handlePlayButtonClick} className="play-button">Play!</button>
       <label className="enable-hard">
         <input type="checkbox" onClick={handleCheckboxClick}></input>

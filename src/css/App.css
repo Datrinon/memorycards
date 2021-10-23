@@ -3,6 +3,7 @@ html, body, #root {
   background: linear-gradient(217deg, rgb(50, 130, 244), rgba(255, 0, 0, 0) 70.71%), linear-gradient(127deg, rgb(184, 231, 245), rgb(33 147 137 / 71%) 70.71%), linear-gradient(336deg, rgba(25, 57, 216, 0.95), rgba(0, 0, 255, 0) 70.71%);
   background-repeat: no-repeat;
   background-attachment: fixed;
+  overflow-x: hidden;
 }
 
 button {
