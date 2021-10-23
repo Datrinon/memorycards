@@ -38,7 +38,9 @@ function Timer(props) {
   }
 
   return (
-    <p className="time-left">{timeLeft}</p>
+    <div className="timer">
+      <p className="time-left">{timeLeft}</p>
+    </div>
   );
 }
 

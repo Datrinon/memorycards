@@ -94,7 +94,7 @@
 }
 
 .menu[animation="1"] {
-  animation: shrink 0.75s ease-in-out;
+  animation: shrink 0.65s ease-in-out;
 }
 
 @keyframes shrink {

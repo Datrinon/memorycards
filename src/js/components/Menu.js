@@ -15,9 +15,7 @@ function Menu(props) {
 
   function handlePlayButtonClick(event) {
     setPlayAnimation(1);
-    document.querySelector('.menu').addEventListener("animationend", () => {
-      props.startGame(event);
-    })
+    document.querySelector('.menu').onanimationend = () => props.startGame(event);
   }
 
   return (

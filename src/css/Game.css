@@ -1,0 +1,92 @@
+.game-area {
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hud {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: baseline;
+  width: 80vw;
+  margin: 15px auto;
+  max-width: 600px;
+}
+
+.timer {
+  border: 2px solid white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  color: white;
+}
+
+.time-left {
+  font-size: 28px;
+  text-align: center;
+  font-weight: lighter;
+}
+
+.current-level {
+  color: white;
+}
+
+.level, .point-counter {
+  font-size: 200%;
+}
+
+.total-score {
+  color: white;
+}
+
+.point-counter {
+  position: relative;
+}
+
+/**/
+
+.point-counter[animation="1"]::after {
+  position: absolute;
+  content: "+1";
+  color: lime;
+  bottom: 15px;
+  left: 20px;
+  text-shadow: 0px -1px 10px #46f514bd;
+  font-size: 80%;
+  animation: move-up 1s;
+  opacity: 0.0;
+}
+
+@keyframes move-up {
+  0% {
+    opacity: 1.0;
+    bottom: 20px;
+    color: white;
+  }
+  20% {
+    color: lime;
+  }
+  40% {
+    color: rgb(182, 251, 182);
+  }
+  60% {
+    color: rgb(48, 253, 48);
+    opacity: 1.0;
+  }
+  80% {
+    color:rgb(182, 251, 182);
+  }
+  100% {
+    color: lime;
+    opacity: 0.0;
+    bottom: 40px;
+  }
+}
