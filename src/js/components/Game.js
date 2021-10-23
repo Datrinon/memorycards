@@ -116,7 +116,7 @@ function Game(props) {
     }
 
     setMemoryCardsStatus(newMemoryCardsStatus);
-    
+
     Utility.triggerAnimation(card, "blow-up", () => {
       // now reshuffle the elements (from Fisher Yates)
       shuffleCards();
@@ -205,9 +205,9 @@ function Game(props) {
 
   if (roundScore >= props.levels[currentLevel]) {
     levelPassed = (
-      <div>
-        <p>Level Passed!</p>
-        <button onClick={advanceLevel}>Proceed to Next Level</button>
+      <div className="round-win">
+        <p className="round-win-message">🗹 Level {currentLevel + 1} Passed!</p>
+        <button className="advance-round-button" onClick={advanceLevel}>Continue</button>
       </div>
     );
     // if the next level is undefined... that means the player was on the last level.
