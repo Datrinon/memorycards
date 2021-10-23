@@ -63,6 +63,7 @@ function Game(props) {
   const [memoryCardsStatus, setMemoryCardsStatus] = useAsyncState(cloneDeep(DUMMY_CARDS_STATUS));
   const [playerWonRound, setPlayerWonRound] = useAsyncState(false);
   const [totalTime, setTotalTime] = useState(props.timePerCard * props.levels[currentLevel]);
+  const [scoreIncAnim, setScoreIncAnim] = useState(0);
 
   console.log({playerReady, currentLevel, score: roundScore, memoryCards, memoryCardsStatus, playerWonRound})
 
@@ -102,6 +103,7 @@ function Game(props) {
           elem.pressed = true;
           setRoundScore(prevRoundScore => prevRoundScore + 1);
           setTotalScore(prevTotalScore => prevTotalScore + 1);
+          playIncrementingAnimation();
         }
 
       }
@@ -115,8 +117,12 @@ function Game(props) {
 
     setMemoryCardsStatus(newMemoryCardsStatus);
 
-    // now reshuffle the elements (from Fisher Yates)
-    shuffleCards();
+  function playIncrementingAnimation() {
+    setScoreIncAnim(1);
+    const endAnimation = () => setScoreIncAnim(0);
+    document
+      .querySelector(".point-counter")
+      .addEventListener("animationend", endAnimation);
   }
 
   function shuffleCards() {
@@ -215,13 +221,15 @@ function Game(props) {
   }
 
   return (
-    <div>
-      <Timer timeleft={totalTime} endGame={endGame} playerWon={playerWonRound}/>
-      <p>Level: {currentLevel + 1}</p>
-      <p>Total Score: {totalScore}</p>
-      <p>Round Score: {roundScore}</p>
-      The game starts here.
-      {memoryCards}
+    <div className="game-area">
+      <div className="hud">
+        <p className="current-level">Lv. <span className="level">{currentLevel + 1}</span></p>
+        <Timer timeleft={totalTime} endGame={endGame} playerWon={playerWonRound}/>
+        <p className="total-score"><span className="point-counter" animation={scoreIncAnim}>{totalScore}</span> pts.</p>
+      </div>
+      <div className="cards">
+        {memoryCards}
+      </div>
       {levelPassed}
     </div>
   );
