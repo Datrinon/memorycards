@@ -35,6 +35,10 @@
   background-color: hsl(208, 100%, 60%);
 }
 
+.play-button:active {
+  background-color: hsl(208, 100%, 30%);
+}
+
 .difficulty-caption {
   font-style: italic;
 }
@@ -49,6 +53,7 @@
   top: 2px;
   height: 16px;
   width: 24px;
+  cursor: pointer;
 }
 
 .difficulty-caption .seconds {
@@ -68,13 +73,38 @@
   0% {
     color: red;
   }
-  25% {
+  10% {
+    color: white;
+  }
+  20% {
     color: rgb(255, 133, 133);
+  }
+  35% {
+    color: white;
   }
   50% {
     color: red;
   }
+  75% {
+    color: white;
+  }
   100% {
     color: rgb(255, 133, 133);
+  }
+}
+
+.menu[animation="1"] {
+  animation: shrink 0.75s ease-in-out;
+}
+
+@keyframes shrink {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1.65);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
   }
 }
