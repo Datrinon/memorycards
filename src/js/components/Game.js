@@ -7,6 +7,8 @@ import GAME_STATE from '../Models/GameState';
 
 import { cloneDeep } from 'lodash';
 
+import confetti from 'canvas-confetti';
+
 // dummy data imports, remove later.
 import Burger from "../../images/burger01.png";
 import Chicken from "../../images/chicken01.png";
@@ -213,11 +215,27 @@ function Game(props) {
     // if the next level is undefined... that means the player was on the last level.
     if (props.levels[currentLevel + 1] === undefined) {
       levelPassed = (
-      <div>
-        <p>Game Passed! Congratulations!</p>
-        <button onClick={props.setGameState.bind(null, GAME_STATE.MENU)}>Return to Main Menu</button>
+      <div className="match-win round-win">
+        <p className="round-win-message">Congratulations!</p>
+        <p className="round-win-subtext">You beat the game. Impeccable memory!</p>
+        <button className="end-game-button" onClick={props.setGameState.bind(null, GAME_STATE.MENU)}>Return to Main Menu</button>
       </div>
       )
+      let canvas = document.querySelector(".confetti-canvas");
+      canvas.classList.remove("no-display");
+      let myConfetti = confetti.create(canvas, {
+        resize: true,
+        useWorker: true
+      });
+
+      myConfetti({
+        particleCount: 100,
+        spread: 160
+      });
+
+      canvas.onanimationend = () => {
+        canvas.classList.add("no-display");
+      }
     }
   }
 
@@ -236,6 +254,7 @@ function Game(props) {
         {memoryCards}
       </div>
       {levelPassed}
+      <canvas className="confetti-canvas no-display"></canvas>
     </div>
   );
 }
