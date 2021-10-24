@@ -3,6 +3,9 @@ import GameInfo from "./GameInfo";
 
 import MemoryCard from "./MemoryCard";
 
+import "../../css/Loading.css";
+import Utility from '../Util/utility';
+
 function Loading(props) {
   const TYPES = ["biryani", "burger", "butter-chicken", "dessert", "dosa",
     "idly", "pasta", "pizza", "rice", "samosa"];
@@ -95,18 +98,32 @@ function Loading(props) {
     })
   }, []);
 
+  function onContinueClick (event) {
+    let dialog = Utility.getMatchingParent(event.target, "loading");
+    
+    Utility.triggerAnimation(dialog, ".fadeout", () => {
+      props.playerReady();
+    })
+  }
+
   return (
-    <div>
+    <div className="loading">
       {props.currentLevel === 0 &&
         <GameInfo
           numLevels={props.numLevels}
         />
       }
       {finishedLoading ?
-        <p>Loading Complete!</p> :
-        <p>Now Loading... Please Wait.</p>
+        <div>
+          <p>Level {props.currentLevel + 1} ready.</p>
+          <p className="checkmark">✅</p>
+        </div> :
+        <div>
+          <p> Getting Level {props.currentLevel + 1} ready... </p>
+          <p className="hourglass rotating">⌛</p>
+        </div>
       }
-      <button onClick={props.playerReady} disabled={!finishedLoading}>Proceed</button>
+      <button className="continue-button" onClick={props.playerReady} disabled={!finishedLoading}>Proceed</button>
     </div>
   );
 }
