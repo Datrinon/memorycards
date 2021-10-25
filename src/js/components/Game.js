@@ -1,78 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import Loading from "./Loading";
-import MemoryCard from './MemoryCard';
 import Timer from './Timer';
 
 import GAME_STATE from '../Models/GameState';
 
-import { cloneDeep } from 'lodash';
-
 import confetti from 'canvas-confetti';
-
-// dummy data imports, remove later.
-import Burger from "../../images/burger01.png";
-import Chicken from "../../images/chicken01.png";
-import Cola from "../../images/cola01.png";
 
 import Utility from '../Util/utility';
 
 import useAsyncState from '../hooks/useAsyncState';
 
 
-const DUMMY_CARDS = [
-  <MemoryCard 
-    id={0}
-    key={Burger}
-    src={Burger}
-  />,
-  <MemoryCard
-    id={1}
-    key={Chicken}
-    src={Chicken}
-  />,
-  <MemoryCard
-    id={2}
-    key={Cola}
-    src={Cola}
-  />
-]
-
-const DUMMY_CARDS_STATUS = [
-  {
-    id: 0,
-    pressed: false,
-  },
-  {
-    id: 1,
-    pressed: false,
-  },
-  {
-    id: 2,
-    pressed: false
-  }
-]
-
-const DUMMY_STATE_READY = true;
-
-
 function Game(props) {
-  // debugger;
-  const [playerReady, setPlayerReady] = useState(DUMMY_STATE_READY);
+  const [playerReady, setPlayerReady] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [roundScore, setRoundScore] = useState(0);
-  const [memoryCards, setMemoryCards] = useState(cloneDeep(DUMMY_CARDS));
-  const [memoryCardsStatus, setMemoryCardsStatus] = useAsyncState(cloneDeep(DUMMY_CARDS_STATUS));
+  const [memoryCards, setMemoryCards] = useState([]);
+  const [memoryCardsStatus, setMemoryCardsStatus] = useAsyncState([]);
   const [playerWonRound, setPlayerWonRound] = useAsyncState(false);
   const [totalTime, setTotalTime] = useState(props.timePerCard * props.levels[currentLevel]);
   const [scoreIncAnim, setScoreIncAnim] = useState(0);
 
-  console.log({playerReady, currentLevel, score: roundScore, memoryCards, memoryCardsStatus, playerWonRound})
-
   function receiveMemoryCards(cards) {
     setMemoryCards(cards);
-
-    console.log(cards);
 
     let status = cards.map((elem, index) => {
       return {
@@ -85,8 +36,6 @@ function Game(props) {
   }
 
   function handleMemoryCardClick(event) {
-    console.log("click called.");
-    console.log(playerWonRound);
     if (playerWonRound.current) {
       return;
     }
@@ -99,12 +48,11 @@ function Game(props) {
       if (elem.id === selected) {
         // if pressed is already true here then we send the game to a game over state.
         if (elem.pressed) {
-          debugger;
           lost = true;
         } else {
           elem.pressed = true;
           setRoundScore(prevRoundScore => prevRoundScore + 1);
-          setTotalScore(prevTotalScore => prevTotalScore + 1);
+          props.setCurrentScore(prevCurrentScore => prevCurrentScore + 1);
           playIncrementingAnimation();
         }
 
@@ -136,11 +84,12 @@ function Game(props) {
   function shuffleCards() {
     setMemoryCards(prevMemoryCards => {
       let updatedMemoryCards = [...prevMemoryCards];
-      let currentIndex = memoryCards.length;
+      let currentIndex = prevMemoryCards.length;
       let randomIndex;
 
       while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
+        console.log(randomIndex);
         currentIndex--;
   
         // destructure
@@ -165,27 +114,8 @@ function Game(props) {
     console.log("You should advance the level here and go back to loading.");
   }
 
-  
-  // TODO
-  // Dummy useEffect, make sure to remove this later
-  useEffect(() => {
-    const withHandlers = DUMMY_CARDS.map(elem => {
-      return React.cloneElement(
-        elem,
-        {onClick: handleMemoryCardClick}
-      )
-    });
-
-    setMemoryCards(withHandlers);
-
-    return () => {
-      console.log("game component unmounted.")
-    }
-  }, []);
-
   useEffect(() => {
     if (roundScore >= props.levels[currentLevel]) {
-      console.log("we won?!");
       setPlayerWonRound(true);
     } 
   });
@@ -248,7 +178,7 @@ function Game(props) {
       <div className="hud">
         <p className="current-level">Lv. <span className="level">{currentLevel + 1}</span></p>
         <Timer timeleft={totalTime} endGame={endGame} playerWon={playerWonRound}/>
-        <p className="total-score"><span className="point-counter" animation={scoreIncAnim}>{totalScore}</span> pts.</p>
+        <p className="total-score"><span className="point-counter" animation={scoreIncAnim}>{props.currentScore}</span> pts.</p>
       </div>
       <div className="cards">
         {memoryCards}
