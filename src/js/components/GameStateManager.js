@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../css/Game.css';
 
 import Menu from "./Menu";
 import Game from './Game';
+import LoseScreen from "./LoseScreen";
 
 import GAME_STATE from '../Models/GameState';
 
-function GameManager() {
+function GameStateManager() {
 
-  const [levels, setLevels] = useState([3, 3]); //useState([3, 4, 6, 8, 10]);
+  const [levels, setLevels] = useState([3, 5, 7, 9, 10]); //useState([3, 4, 6, 8, 10]);
   const [gameCurrentState, setGameCurrentState] = useState(GAME_STATE.MENU);
   const [timePerCard, setTimePerCard] = useState(5);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
   console.log("Current state:" + gameCurrentState);
 
-
-  function setGameState(state) {
-    setGameCurrentState(state);
-  }
+  useEffect(() => {
+    if (currentScore > highScore) {
+      console.log("Setting le high score");
+      setHighScore(currentScore)
+    }
+  }, [currentScore]);
 
   function toggleHardMode(event) {
     if (event.target.checked) {
@@ -34,30 +39,25 @@ function GameManager() {
             startGame={setGameCurrentState.bind(null, GAME_STATE.PLAYING)}
             toggleHardMode={toggleHardMode}
             timePerCard={timePerCard}
+            highScore={highScore}
             />
         );
       case GAME_STATE.PLAYING:
         return (
           <Game
             levels = {levels}
-            setGameState={setGameState}
+            setGameState={setGameCurrentState}
             timePerCard = {timePerCard}
+            currentScore={currentScore}
+            setCurrentScore={setCurrentScore}
           />
         );
       case GAME_STATE.GAMEOVER_LOSE:
         return (
-          <div className="game-over dialog-menu">
-            <p>Game Over! Better luck next time!</p>
-            <button
-              className="play-again"
-              onClick={setGameCurrentState.bind(null, GAME_STATE.PLAYING)}>
-                Play Again
-            </button>
-            <button
-              className="go-to-menu"
-              onClick={setGameState.bind(null, GAME_STATE.MENU)}>
-              Return to Main Menu</button>
-          </div>
+          <LoseScreen
+            setGameState={setGameCurrentState}
+            currentScore={currentScore}
+          />
         );
       default: 
         break;
@@ -72,4 +72,4 @@ function GameManager() {
   )
 }
 
-export default GameManager;
+export default GameStateManager;
