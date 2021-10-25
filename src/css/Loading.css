@@ -27,7 +27,7 @@
   }
 }
 
-.continue-button[disabled="true"] {
+.continue-button[disabled] {
   background-color: grey;
 }
 

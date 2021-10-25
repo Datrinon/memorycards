@@ -4,7 +4,7 @@
   max-width: 800px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0 auto;
   flex-wrap: wrap;
 }
@@ -19,14 +19,17 @@
   animation: appear 0.35s;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   cursor: pointer;
   transition: box-shadow 300ms;
 }
 
-.memory-card:hover {
-  box-shadow: 0px 3px 5px 1px #ffea746e;
+@media (hover: hover) {
+  .memory-card:hover {
+    box-shadow: 0px 3px 5px 1px #ffea746e;
+  }
 }
+
 
 .blow-up {
   animation: blow-up 0.35s;
@@ -60,6 +63,7 @@
   max-width: 200px;
   display: block;
   margin: 0 auto;
+  margin-top: 15px;
   box-shadow: 1px 2px 5px 0px black;
 }
 
@@ -77,5 +81,10 @@
 @media (max-width: 400px) {
   .memory-card {
     width: 128px;
+  }
+
+  .memory-card-image {
+    width: 80%;
+    height: 50%;
   }
 }
