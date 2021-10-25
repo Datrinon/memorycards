@@ -11,7 +11,6 @@ function Loading(props) {
     "idly", "pasta", "pizza", "rice", "samosa"];
   console.log("= Loading Screen =")
 
-  let loadingElement;
   const [finishedLoading, setFinishedLoading] = useState(false);
 
   async function generateMemoryCard(urls) {
@@ -64,7 +63,6 @@ function Loading(props) {
 
     while (i < props.numCardsForLevel) {
       let index = Math.floor(Math.random() * TYPES.length);
-      console.log(index);
 
       if (currentLevelTypes.includes(TYPES[index])) {
         continue;
@@ -91,10 +89,8 @@ function Loading(props) {
 
       generateMemoryCard(urls).then((cards) => {
         props.passBackMemoryCards(cards);
+        setFinishedLoading(true);
       });
-
-      setFinishedLoading(true);
-
     })
   }, []);
 
