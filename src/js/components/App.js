@@ -1,7 +1,6 @@
 import '../../css/App.css';
 
-import Header from './Header';
-import GameManager from './GameManager';
+import StateManager from './StateManager';
 import Footer from './Footer';
 
 import React from 'react';

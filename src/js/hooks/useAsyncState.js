@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import {useRef, useState} from "react";
 
 /**
  * Creates a ref which is used like a state variable. Use this for asynchronous 
