@@ -11,8 +11,6 @@ function GameManager() {
   const [levels, setLevels] = useState([3, 3]); //useState([3, 4, 6, 8, 10]);
   const [gameCurrentState, setGameCurrentState] = useState(GAME_STATE.MENU);
   const [timePerCard, setTimePerCard] = useState(5);
-  // TODO
-  // keep track of HIGH score.
   console.log("Current state:" + gameCurrentState);
 
 
@@ -37,8 +35,6 @@ function GameManager() {
             toggleHardMode={toggleHardMode}
             timePerCard={timePerCard}
             />
-          // TODO
-          // A difficulty selector which sets the number of levels and time per card.
         );
       case GAME_STATE.PLAYING:
         return (
