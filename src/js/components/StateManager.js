@@ -5,11 +5,10 @@ import Menu from "./Menu";
 import Game from './Game';
 import LoseScreen from "./LoseScreen";
 
-import GAME_STATE from '../Models/GameState';
 
-function GameStateManager() {
+function StateManager() {
 
-  const [levels, setLevels] = useState([3, 5, 7, 9, 10]); //useState([3, 4, 6, 8, 10]);
+  const [levels, setLevels] = useState([3, 4, 6, 8, 10]); //useState([3, 4, 6, 8, 10]);
   const [gameCurrentState, setGameCurrentState] = useState(GAME_STATE.MENU);
   const [timePerCard, setTimePerCard] = useState(5);
   const [currentScore, setCurrentScore] = useState(0);
@@ -18,7 +17,6 @@ function GameStateManager() {
 
   useEffect(() => {
     if (currentScore > highScore) {
-      console.log("Setting le high score");
       setHighScore(currentScore)
     }
   }, [currentScore]);
@@ -31,6 +29,10 @@ function GameStateManager() {
     }
   }
 
+  function resetCurrentScore() {
+    setCurrentScore(0);
+  }
+
   function determineSectionToRender() {
     switch(gameCurrentState) {
       case GAME_STATE.MENU:
@@ -40,6 +42,7 @@ function GameStateManager() {
             toggleHardMode={toggleHardMode}
             timePerCard={timePerCard}
             highScore={highScore}
+            resetCurrentScore={resetCurrentScore}
             />
         );
       case GAME_STATE.PLAYING:
@@ -57,6 +60,7 @@ function GameStateManager() {
           <LoseScreen
             setGameState={setGameCurrentState}
             currentScore={currentScore}
+            resetCurrentScore={resetCurrentScore}
           />
         );
       default: 
@@ -72,4 +76,4 @@ function GameStateManager() {
   )
 }
 
-export default GameStateManager;
+export default StateManager;
