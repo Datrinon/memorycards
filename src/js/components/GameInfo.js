@@ -7,13 +7,13 @@ import React from 'react';
  */
 function GameInfo() {
   return (
-    <div>
-    <p className="welcome-dialog">
-      Can you remember which cards you picked?
-      The goal of this game is to select all the cards once,
-      without selecting them again!
-      Good luck!
-    </p>
+    <div className="welcome-dialog">
+      <h1 className="hook">How good is your memory?</h1>
+      <p>
+        The goal of this game is to select all the shown cards once. Clicking
+        on a card more than once will result in game over.
+      </p>
+      <p>Good luck!</p>
   </div>
   )
 }
