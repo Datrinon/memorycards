@@ -14,7 +14,6 @@ import useAsyncState from '../hooks/useAsyncState';
 function Game(props) {
   const [playerReady, setPlayerReady] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(0);
-  const [totalScore, setTotalScore] = useState(0);
   const [roundScore, setRoundScore] = useState(0);
   const [memoryCards, setMemoryCards] = useState([]);
   const [memoryCardsStatus, setMemoryCardsStatus] = useAsyncState([]);
@@ -151,22 +150,22 @@ function Game(props) {
         <button className="end-game-button" onClick={props.setGameState.bind(null, GAME_STATE.MENU)}>Return to Main Menu</button>
       </div>
       )
-      let canvas = document.querySelector(".confetti-canvas");
-      canvas.classList.remove("no-display");
-      let myConfetti = confetti.create(canvas, {
-        resize: true,
-        useWorker: true
-      });
-
-      myConfetti({
-        particleCount: 100,
-        spread: 160
-      });
-
-      canvas.onanimationend = () => {
-        canvas.classList.add("no-display");
-      }
+      launchConfetti();
     }
+  }
+
+  function launchConfetti() {
+    let canvas = document.querySelector(".confetti-canvas");
+    canvas.classList.remove("no-display");
+    let myConfetti = confetti.create(canvas, {
+      resize: true,
+      useWorker: true
+    });
+
+    myConfetti({
+      particleCount: 100,
+      spread: 160
+    });
   }
 
   function endGame() {
