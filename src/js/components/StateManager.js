@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import Game from './Game';
 import LoseScreen from "./LoseScreen";
 
+import GAME_STATE from '../Models/GameState';
 
 function StateManager() {
 
