@@ -50,9 +50,17 @@ function GameManager() {
         );
       case GAME_STATE.GAMEOVER_LOSE:
         return (
-          <div>
-            <p>You lose! Better luck next time!!</p>
-            <button onClick={setGameState.bind(null, GAME_STATE.MENU)}>Play Again</button>
+          <div className="game-over dialog-menu">
+            <p>Game Over! Better luck next time!</p>
+            <button
+              className="play-again"
+              onClick={setGameCurrentState.bind(null, GAME_STATE.PLAYING)}>
+                Play Again
+            </button>
+            <button
+              className="go-to-menu"
+              onClick={setGameState.bind(null, GAME_STATE.MENU)}>
+              Return to Main Menu</button>
           </div>
         );
       default: 

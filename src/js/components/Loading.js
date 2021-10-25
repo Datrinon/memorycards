@@ -107,7 +107,7 @@ function Loading(props) {
   }
 
   return (
-    <div className="loading">
+    <div className="loading dialog-menu">
       {props.currentLevel === 0 &&
         <GameInfo
           numLevels={props.numLevels}
