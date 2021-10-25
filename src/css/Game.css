@@ -90,3 +90,74 @@
     bottom: 40px;
   }
 }
+
+.round-win {
+  border: 1px solid transparent;
+  box-shadow: 0px 3px 5px 1px #0000009c;
+  border-radius: 5px;
+  text-align: center;
+  padding: 15px;
+  width: 75vw;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #454544;
+  animation: appear-from-bottom 0.5s;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes appear-from-bottom {
+  from {
+    transform: translate(-50%, 100%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.advance-round-button {
+  box-shadow: 1px 2px 5px 1px #2a2a2acd;;
+  font-size: 125%;
+}
+
+.advance-round-button:hover {
+  background-color: rgb(253, 208, 112);
+}
+
+.advance-round-button:active {
+  background-color: rgb(175, 144, 76);
+}
+
+.round-win-message {
+  margin: 15px 0;
+  color: rgb(255, 231, 124);
+  font-size: 250%;
+}
+
+.round-win-subtext {
+  color: white;
+  font-size: 105%;
+}
+
+.end-game-button {
+  background-color: hsl(208, 100%, 40%);
+  color: white;
+  box-shadow: 0px 3px 5px 1px #0000006e;
+}
+
+.end-game-button:hover {
+  background-color: hsl(208, 100%, 50%);
+  box-shadow: 0px 3px 5px 1px #2232e9a8;
+}
+
+.confetti-canvas {
+  position: fixed;
+  width: 90vw;
+  height: 90vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}

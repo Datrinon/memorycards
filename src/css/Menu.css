@@ -1,3 +1,13 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
 .game-title {
   font-weight: 400;
   font-size: 225%;
@@ -18,6 +28,7 @@
   box-shadow: 0px 4px 11px 5px #3d3d3d6e;
   background-color: rgb(245, 245, 245);
   color: black;
+  animation: fade-in 1.0s;
 }
 
 .logo {
@@ -117,7 +128,7 @@
   }
 }
 
-.round-win {
+.game-over {
   border: 1px solid transparent;
   box-shadow: 0px 3px 5px 1px #0000009c;
   border-radius: 5px;
@@ -126,65 +137,28 @@
   width: 75vw;
   max-width: 400px;
   margin: 0 auto;
-  background-color: #454544;
-  animation: appear-from-bottom 0.5s;
+  background-color: #ece8da;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-@keyframes appear-from-bottom {
-  from {
-    transform: translate(-50%, 100%);
-  }
-  to {
-    transform: translate(-50%, -50%);
-  }
-}
-
-
-.advance-round-button {
-  box-shadow: 1px 2px 5px 1px #2a2a2acd;;
+.game-over {
   font-size: 125%;
 }
 
-.advance-round-button:hover {
-  background-color: rgb(253, 208, 112);
+.game-over button {
+  display: block;
+  width: 80%;
+  margin: 15px auto;
+  font-size: 75%;
 }
 
-.advance-round-button:active {
-  background-color: rgb(175, 144, 76);
+.game-over button:hover {
+  background-color: #ffffff;
 }
 
-.round-win-message {
-  margin: 15px 0;
-  color: rgb(255, 231, 124);
-  font-size: 250%;
-}
-
-.round-win-subtext {
-  color: white;
-  font-size: 105%;
-}
-
-.end-game-button {
-  background-color: hsl(208, 100%, 40%);
-  color: white;
-  box-shadow: 0px 3px 5px 1px #0000006e;
-}
-
-.end-game-button:hover {
-  background-color: hsl(208, 100%, 50%);
-  box-shadow: 0px 3px 5px 1px #2232e9a8;
-}
-
-.confetti-canvas {
-  position: fixed;
-  width: 90vw;
-  height: 90vh;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+.game-over button:active {
+  background-color: #bbbbbb;
 }
